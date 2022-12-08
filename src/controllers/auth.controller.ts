@@ -4,7 +4,6 @@ import {Request, Response} from 'express';
 class AuthController {
     async register(req: Request, res: Response) {
         try {
-            console.log(1);
             let user = req.body;
             let userId = await UserModel.findOne({email: req.body.email})
             if (userId == null) {

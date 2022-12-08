@@ -1,3 +1,4 @@
+import {UserModel} from "../schemas/user.model";
 
 const {VoteModel} = require('../schemas/vote.schema');
 import {Request, Response} from 'express';
@@ -6,17 +7,25 @@ class VoteController{
     async vote(req: Request, res: Response){
         try {
             let votePost = req.body;
-            let vote = await VoteModel.findOne({name: req.body.name})
-            if (vote == null) {
-                let newVote = await VoteModel.create(votePost);
-                res.status(201).json({type: 'success', message: "Vote Successfully"});
-            } else {
-                vote.amount += 1;
-                await  VoteModel.findByIdAndUpdate({_id: vote._id}, vote)
+            let userVote = await VoteModel.findOne({email: votePost.email});
+            if (userVote){
                 res.status(200).json({
-                    type: 'success',
-                    message: "Vote Successfully"
-                });
+                    type: 'errot',
+                    message: "You already vote!"
+                })
+            }else{
+                let vote = await VoteModel.findOne({name: req.body.name})
+                if (vote == null) {
+                    let newVote = await VoteModel.create(votePost);
+                    res.status(201).json({type: 'success', message: "Vote Successfully"});
+                } else {
+                    vote.amount += 1;
+                    await  VoteModel.findByIdAndUpdate({_id: vote._id}, vote)
+                    res.status(200).json({
+                        type: 'success',
+                        message: "Vote Successfully"
+                    });
+                }
             }
         } catch (error) {
             res.status(500).json('Server error');
