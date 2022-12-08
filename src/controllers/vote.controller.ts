@@ -11,7 +11,7 @@ class VoteController{
                 let newVote = await VoteModel.create(vote);
                 res.status(201).json({type: 'success', message: "Vote Successfully"});
             } else {
-                vote.number += 1;
+                vote.amount += 1;
                 await  VoteModel.findByIdAndUpdate({_id: vote._id}, vote)
                 res.status(200).json({
                     type: 'success',

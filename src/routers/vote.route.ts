@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import voteController from "../controllers/vote.controller";
 
 const voteRoute = express.Router();
