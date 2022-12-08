@@ -8,7 +8,7 @@ class VoteController{
             let votePost = req.body;
             let vote = await VoteModel.findOne({name: req.body.name})
             if (vote == null) {
-                let newVote = await VoteModel.create(vote);
+                let newVote = await VoteModel.create(votePost);
                 res.status(201).json({type: 'success', message: "Vote Successfully"});
             } else {
                 vote.amount += 1;
